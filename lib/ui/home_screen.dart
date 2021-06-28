@@ -66,29 +66,31 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _drawColumnItems() {
-    return ListView(
-      children: ProductData.productData.getProducts().map((Product product) {
-        return ListTile(
-          title: Text(product.name),
-          subtitle: Text('${product.price} \$'),
-          leading: Image.asset(
-            product.pathImage,
-            height: 60,
-            width: 70,
-            fit: BoxFit.cover,
-          ),
-          trailing: IconButton(
-            icon: Icon(
-              Icons.favorite,
-              color: (product.isLike) ? Colors.red : Colors.grey,
+    return SingleChildScrollView(
+      child: Column(
+        children: ProductData.productData.getProducts().map((Product product) {
+          return ListTile(
+            title: Text(product.name),
+            subtitle: Text('${product.price} \$'),
+            leading: Image.asset(
+              product.pathImage,
+              height: 60,
+              width: 70,
+              fit: BoxFit.cover,
             ),
-            onPressed: () {
-              product.isLike = !product.isLike;
-              setState(() {});
-            },
-          ),
-        );
-      }).toList(),
+            trailing: IconButton(
+              icon: Icon(
+                Icons.favorite,
+                color: (product.isLike) ? Colors.red : Colors.grey,
+              ),
+              onPressed: () {
+                product.isLike = !product.isLike;
+                setState(() {});
+              },
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:assignment_1/ui/favorite_screen.dart';
 import 'package:assignment_1/ui/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,15 +10,41 @@ class MainScreen extends StatefulWidget {
   }
 }
 
-class MainScreenState extends State<MainScreen> {
+class MainScreenState extends State<MainScreen>
+    with SingleTickerProviderStateMixin {
+  TabController tabBarController;
+  int indexBottom = 0;
+
+  @override
+  void initState() {
+    tabBarController = TabController(length: 3, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: _drawAppBar(),
-        body: _drawBody(),
-      ),
+    return Scaffold(
+      appBar: _drawAppBar(),
+      body: _drawBody(),
+      bottomNavigationBar: _drawBottomNavigationBar(),
+    );
+  }
+
+  Widget _drawBottomNavigationBar() {
+    return BottomNavigationBar(
+      currentIndex: indexBottom,
+      selectedItemColor: Colors.teal,
+      onTap: (newIndex) {
+        indexBottom = newIndex;
+        tabBarController.animateTo(newIndex);
+        setState(() {});
+      },
+      items: [
+        BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.favorite), title: Text('Favorite')),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.person_rounded), title: Text('Profile')),
+      ],
     );
   }
 
@@ -30,6 +57,7 @@ class MainScreenState extends State<MainScreen> {
       ),
       backgroundColor: Colors.teal,
       bottom: TabBar(
+        controller: tabBarController,
         indicatorColor: Colors.white,
         tabs: [
           Tab(
@@ -50,9 +78,9 @@ class MainScreenState extends State<MainScreen> {
   }
 
   Widget _drawBody() {
-    return TabBarView(children: [
+    return TabBarView(controller: tabBarController, children: [
       HomeScreen(),
-      Center(child: Text('2')),
+      FavoriteScreen(),
       Center(child: Text('3')),
     ]);
   }
