@@ -1,5 +1,8 @@
-import 'package:assignment_1/ui/favorite_screen.dart';
-import 'package:assignment_1/ui/home_screen.dart';
+import 'package:assignment_1/data/product.dart';
+import 'package:assignment_1/models/product.dart';
+import 'package:assignment_1/ui/pages/favorite_screen.dart';
+import 'package:assignment_1/ui/pages/home_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -14,6 +17,13 @@ class MainScreenState extends State<MainScreen>
     with SingleTickerProviderStateMixin {
   TabController tabBarController;
   int indexBottom = 0;
+
+  toggleProduct(Product product) {
+    int index = ProductData.productData.getProducts().indexOf(product);
+    ProductData.productData.getProducts()[index].isLike =
+        !ProductData.productData.getProducts()[index].isLike;
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -59,6 +69,9 @@ class MainScreenState extends State<MainScreen>
       bottom: TabBar(
         controller: tabBarController,
         indicatorColor: Colors.white,
+        indicatorSize: TabBarIndicatorSize.label,
+        indicator:
+            UnderlineTabIndicator(insets: EdgeInsets.symmetric(horizontal: 10)),
         tabs: [
           Tab(
             icon: Icon(Icons.home),
@@ -79,8 +92,8 @@ class MainScreenState extends State<MainScreen>
 
   Widget _drawBody() {
     return TabBarView(controller: tabBarController, children: [
-      HomeScreen(),
-      FavoriteScreen(),
+      HomeScreen(toggleProduct),
+      FavoriteScreen(toggleProduct),
       Center(child: Text('3')),
     ]);
   }

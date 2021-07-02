@@ -48,6 +48,13 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_10
+        targetCompatibility JavaVersion.VERSION_1_10
+    }
+    kotlinOptions {
+        jvmTarget = '1.6' // Java 7 not supported by kotlinOptions jvmTarget
+    }
 }
 
 flutter {

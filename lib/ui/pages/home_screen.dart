@@ -1,16 +1,12 @@
 import 'package:assignment_1/data/product.dart';
 import 'package:assignment_1/models/product.dart';
+import 'package:assignment_1/ui/widgets/product_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return HomeScreenState();
-  }
-}
-
-class HomeScreenState extends State<HomeScreen> {
+class HomeScreen extends StatelessWidget {
+  Function function;
+  HomeScreen(this.function);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,7 +40,7 @@ class HomeScreenState extends State<HomeScreen> {
             width: 300,
             height: double.infinity,
             child: Container(
-              color: Colors.grey.withOpacity(0.4),
+              color: Colors.black.withOpacity(0.4),
               child: Center(
                   child: Text(
                 product.name,
@@ -66,31 +62,10 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _drawColumnItems() {
-    return SingleChildScrollView(
-      child: Column(
-        children: ProductData.productData.getProducts().map((Product product) {
-          return ListTile(
-            title: Text(product.name),
-            subtitle: Text('${product.price} \$'),
-            leading: Image.asset(
-              product.pathImage,
-              height: 60,
-              width: 70,
-              fit: BoxFit.cover,
-            ),
-            trailing: IconButton(
-              icon: Icon(
-                Icons.favorite,
-                color: (product.isLike) ? Colors.red : Colors.grey,
-              ),
-              onPressed: () {
-                product.isLike = !product.isLike;
-                setState(() {});
-              },
-            ),
-          );
-        }).toList(),
-      ),
+    return ListView(
+      children: ProductData.productData.getProducts().map((Product product) {
+        return ProductWidget(product,function);
+      }).toList(),
     );
   }
 }
