@@ -2,6 +2,7 @@ import 'package:assignment_1/data/product.dart';
 import 'package:assignment_1/models/product.dart';
 import 'package:assignment_1/ui/pages/favorite_screen.dart';
 import 'package:assignment_1/ui/pages/home_screen.dart';
+import 'package:assignment_1/ui/pages/home_screen_gradview.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -94,7 +95,7 @@ class MainScreenState extends State<MainScreen>
     return TabBarView(controller: tabBarController, children: [
       HomeScreen(toggleProduct),
       FavoriteScreen(toggleProduct),
-      Center(child: Text('3')),
+      HomeScreenGridView(toggleProduct),
     ]);
   }
 }
